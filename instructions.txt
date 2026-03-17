@@ -1,1 +1,1 @@
-os.system("powershell")
+egorkolomichenko985@gmail.com
