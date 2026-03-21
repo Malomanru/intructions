@@ -13,7 +13,7 @@ import uuid
 
 SYSTEM = platform.system()
 SERVER_PORT = 8080
-HANDSHAKE = b'CONNECT_v1_SECRET'  # должен совпадать с сервером
+HANDSHAKE = b'CONNECT_v1_SECRET'  # должен совпадать
 SERVER_IPS = ['26.109.130.211']
 UPDATE_URL = 'https://raw.githubusercontent.com/Malomanru/intructions/refs/heads/main/client.py'
 
