@@ -73,7 +73,7 @@ def check_update():
 
 def _update_loop():
     while True:
-        time.sleep(60)  # проверять каждую минуту
+        time.sleep(60)  # проверять каждые 5 минут
         check_update()
 
 check_update()
@@ -373,10 +373,18 @@ while True:
                     connection.send((0).to_bytes(8, 'big'))
 
             elif command.startswith("upload "):
-                parts = command[7:].strip().split()
-                remote_path = parts[1] if len(parts) >= 2 else parts[0]
+                # format: upload <local_path> <remote_path>
+                parts = command[7:].strip().split(None, 1)
+                remote_path = parts[1].strip() if len(parts) >= 2 else parts[0].strip()
+                # если remote_path — папка, добавляем имя файла
+                if os.path.isdir(remote_path):
+                    send_msg(connection, f"[-] Error: '{remote_path}' is a directory".encode())
+                    # дочитываем file_size чтобы не рассинхронизировать протокол
+                    recv_exact(connection, 8)
+                    continue
                 file_size = int.from_bytes(recv_exact(connection, 8), 'big')
                 try:
+                    os.makedirs(os.path.dirname(os.path.abspath(remote_path)), exist_ok=True)
                     f = open(remote_path, 'wb')
                     send_msg(connection, b"ok")
                 except Exception as e:
